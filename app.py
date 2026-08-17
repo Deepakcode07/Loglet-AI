@@ -20,9 +20,18 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(
 logger = logging.getLogger("daily_status_agent")
 logging.getLogger("google_genai.models").setLevel(logging.ERROR)
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+def get_secret(key: str) -> Optional[str]:
+    """Retrieve secret from Streamlit secrets (Cloud) first, then environment variables (Local)."""
+    try:
+        if hasattr(st, "secrets") and key in st.secrets:
+            return st.secrets[key]
+    except Exception:
+        pass
+    return os.getenv(key)
+
+GROQ_API_KEY = get_secret("GROQ_API_KEY")
+GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
+OPENROUTER_API_KEY = get_secret("OPENROUTER_API_KEY")
 
 if not GROQ_API_KEY or not GEMINI_API_KEY:
     st.error("This app isn't configured correctly. Please contact the administrator.")
