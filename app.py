@@ -311,7 +311,7 @@ This tool turns a rough spoken or typed update into a clean, structured EOD repo
 
 **To get the best possible status, include:**
 - **Exact task / ticket / story numbers** — e.g. "task 12500" or "story DEV-4521" — they'll be pulled out and highlighted automatically.
-- **Specific outcomes, not just activity** — "Fixed the Azure AI Search index issue" beats "worked on search stuff."
+- **Specific outcomes, not just activity** — "Fixed the Lexical Search in index issue" beats "worked on search stuff."
 - **Blockers explicitly** — even saying "no blockers" is useful; it shows nothing is silently stuck.
 - **Tomorrow's plan** — keeps your update forward-looking, not just a log.
 - **Numbers where relevant** — response time, bug count, % complete — quantified updates read as more senior.
@@ -402,7 +402,7 @@ with col1:
         pasted = st.text_area(
             "Paste your work items, or just type roughly what you did:",
             height=150,
-            placeholder="e.g. finished task 12500 azure search index bug, also fixed dedup issue, tomorrow starting agentic ai backend integration...",
+            placeholder="e.g. finished task 12500 related to pooling mechanism, also fixed long context horizon issue, tomorrow starting agentic ai backend integration...",
         )
         custom_note = st.text_input(
             "Any specific formatting preference? (optional)",
