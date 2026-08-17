@@ -1,0 +1,7 @@
+streamlit
+langgraph
+langchain
+langchain-groq
+langchain-google-genai
+streamlit-mic-recorder
+python-dotenv
