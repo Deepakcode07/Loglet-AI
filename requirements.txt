@@ -2,6 +2,7 @@ streamlit
 langgraph
 langchain
 langchain-groq
+groq
 langchain-google-genai
 streamlit-mic-recorder
 python-dotenv
