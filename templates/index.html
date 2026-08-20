@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loglet AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="aurora">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="logo">🎙️ Loglet <span>AI</span></div>
+        <span class="ver">v3.0 · Flask</span>
+    </nav>
+
+    <header class="hero">
+        <span class="badge"><span class="dot"></span>AI EOD REPORTER</span>
+        <h1>Speak your day.<br><span class="grad">Ship your status.</span></h1>
+        <p>Hindi, English, or Hinglish — Loglet turns a rough voice note into a polished EOD report.</p>
+    </header>
+
+    <main class="workspace">
+        <section class="panel panel-input" id="panelInput">
+            <div class="panel-head"><span class="step-tag">01</span>
+                <h2>Give your update</h2>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" data-tab="voice">🎙 Voice</button>
+                <button class="tab" data-tab="text">✍️ Text</button>
+            </div>
+
+            <div class="tab-panel" id="tab-voice">
+                <div class="orb-wrap">
+                    <button id="recordBtn" class="orb"><span id="orbIcon">🎙️</span></button>
+                    <div id="waveform" class="waveform"></div>
+                    <p id="recordStatus" class="hint">Tap to speak your update</p>
+                </div>
+            </div>
+
+            <div class="tab-panel hidden" id="tab-text">
+                <textarea id="textInput"
+                    placeholder="Rough notes are fine — e.g. finished task 12500 pooling mechanism..."></textarea>
+                <input id="styleNote" placeholder="Formatting preference — optional" />
+                <button id="generateBtn" class="cta">Generate report →</button>
+            </div>
+
+            <details class="settings">
+                <summary>⚙️ Customize (ticket prefix & project context)</summary>
+                <div class="settings-row">
+                    <div><label>TICKET PREFIX</label><input id="prefixInput" value="DEV-" /></div>
+                    <div><label>PROJECT CONTEXT</label><input id="contextInput" value="Backend · Python · Postgres" />
+                    </div>
+                </div>
+            </details>
+
+            <div id="statusMsg" class="status-msg hidden"></div>
+        </section>
+
+        <section class="panel panel-output" id="panelOutput">
+            <div class="panel-head"><span class="step-tag">02</span>
+                <h2>Your EOD Report</h2>
+            </div>
+
+            <div id="skeletonLoader" class="skeleton hidden">
+                <div class="sk-status" id="skStatusText">Understanding your update...</div>
+                <div class="sk-line w70"></div>
+                <div class="sk-line w85"></div>
+                <div class="sk-line w60"></div>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <div class="empty-icon">◎</div>
+                <p>Your polished report lands here</p>
+                <span>Record or type an update, then hit Generate.</span>
+            </div>
+
+            <div id="reportCard" class="report-card hidden">
+                <div class="report-actions">
+                    <button id="copyRichBtn" title="Copy formatted (no # or *)">📋 Copy</button>
+                    <button id="copyMdBtn" title="Copy raw markdown">Copy MD</button>
+                    <button id="editBtn" title="Edit report">✏️ Edit</button>
+                    <button id="downloadBtn" title="Download .md">⬇️</button>
+                </div>
+                <div id="reportView" class="report-view" contenteditable="false"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>Loglet AI — crafted for developers who'd rather build than write status updates.</footer>
+
+    <script src="{{ url_for('static', filename='js/recorder.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
