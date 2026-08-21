@@ -7,11 +7,10 @@ langchain-google-genai
 streamlit-mic-recorder
 python-dotenv
 flask
-python-dotenv
 requests
-groq
-langchain-google-genai
 noisereduce
 soundfile
 numpy
 scipy
+webrtcvad-wheels
+flask-limiter

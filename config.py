@@ -20,6 +20,10 @@ class Config:
     MAX_INPUT_CHARS = 6000
     MAX_CONTEXT_CHARS = 800
     MAX_PREFIX_CHARS = 12
+    MAX_RECORDING_SECONDS = 180          # hard client+server cap
+    MIN_SPEECH_RATIO = 0.0               # fail-safe: never reject audio
+    MAX_AUDIO_BYTES = 25 * 1024 * 1024   # 25MB cap
+    MIN_TRANSCRIPT_WORDS = 1             # allow short updates
 
     @staticmethod
     def validate():

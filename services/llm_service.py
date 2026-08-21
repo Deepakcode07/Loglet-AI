@@ -80,10 +80,19 @@ class LLMService:
 
     def transcribe(self, audio_bytes: bytes, prompt_hint: str) -> str:
         last_err = None
+        if audio_bytes.startswith(b"\x1a\x45\xdf\xa3"):
+            filename = "audio.webm"
+        elif audio_bytes.startswith(b"OggS"):
+            filename = "audio.ogg"
+        elif audio_bytes.startswith(b"ID3") or audio_bytes.startswith(b"\xff\xfb"):
+            filename = "audio.mp3"
+        else:
+            filename = "audio.wav"
+
         for model in Config.WHISPER_CHAIN:
             try:
                 transcript = self._groq_client.audio.transcriptions.create(
-                    file=("audio.wav", audio_bytes), model=model, prompt=prompt_hint, response_format="text"
+                    file=(filename, audio_bytes), model=model, prompt=prompt_hint, response_format="text"
                 )
                 if transcript and transcript.strip():
                     return transcript

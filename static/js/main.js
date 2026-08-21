@@ -58,22 +58,38 @@ waveform.innerHTML = Array.from({ length: 20 }).map((_, i) => `<span style="anim
 recordBtn.addEventListener("click", async () => {
     clearStatus();
     if (!isRecording) {
-        recorder = new VoiceRecorder(async (blob) => {
-            showLoading("🧩 Understanding your update...");
-            const { prefix, context } = getSettings();
-            const form = new FormData();
-            form.append("audio", blob, "audio.wav");
-            form.append("prefix", prefix); form.append("context", context);
-            try {
-                const res = await fetch("/api/generate/voice", { method: "POST", body: form });
-                const data = await res.json();
-                if (!res.ok) return showError(data.error), emptyState.classList.remove("hidden"), skeleton.classList.add("hidden");
-                showReport(data);
-            } catch { showError("Network error. Please try again."); emptyState.classList.remove("hidden"); skeleton.classList.add("hidden"); }
+        recorder = new VoiceRecorder({
+            maxSeconds: 180,
+            silenceLimitMs: 4000,
+            onTick: ({ elapsedSec, remaining }) => {
+                recordStatus.textContent = remaining <= 10
+                    ? `⏳ Auto-stopping in ${remaining}s...`
+                    : `Listening... ${elapsedSec}s (tap to stop)`;
+            },
+            onAutoStop: (reason) => {
+                recordStatus.textContent = reason === "silence"
+                    ? "Stopped — no speech detected for a while."
+                    : "Stopped — reached the 3 minute limit.";
+                isRecording = false; recordBtn.classList.remove("recording"); orbIcon.textContent = "🎙️";
+            },
+            onStop: async (blob) => {
+                showLoading("🧩 Understanding your update...");
+                const { prefix, context } = getSettings();
+                const form = new FormData();
+                const ext = (blob.type && blob.type.includes("webm")) ? "audio.webm" : (blob.type && blob.type.includes("ogg")) ? "audio.ogg" : "audio.wav";
+                form.append("audio", blob, ext);
+                form.append("prefix", prefix); form.append("context", context);
+                try {
+                    const res = await fetch("/api/generate/voice", { method: "POST", body: form });
+                    const data = await res.json();
+                    if (!res.ok) { showError(data.error); emptyState.classList.remove("hidden"); skeleton.classList.add("hidden"); return; }
+                    showReport(data);
+                } catch { showError("Network error. Please try again."); emptyState.classList.remove("hidden"); skeleton.classList.add("hidden"); }
+            }
         });
         await recorder.start();
         isRecording = true; recordBtn.classList.add("recording"); orbIcon.textContent = "⏹️";
-        recordStatus.textContent = "Listening... tap to stop"; waveform.style.display = "flex";
+        waveform.style.display = "flex";
     } else {
         recorder.stop(); isRecording = false; recordBtn.classList.remove("recording"); orbIcon.textContent = "🎙️";
         recordStatus.textContent = "Processing...";

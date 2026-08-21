@@ -6,6 +6,9 @@ from services.audio_service import AudioProcessor
 from services.report_pipeline import ReportPipeline
 from services.security import Sanitizer
 from services.formatter import RichTextFormatter
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
 logger = logging.getLogger("loglet_ai")
@@ -16,6 +19,8 @@ app = Flask(__name__)
 llm_service = LLMService()
 audio_processor = AudioProcessor()
 pipeline = ReportPipeline(llm_service)
+app.config["MAX_CONTENT_LENGTH"] = Config.MAX_AUDIO_BYTES
+limiter = Limiter(app=app, key_func=get_remote_address, default_limits=["500 per hour"])
 
 
 @app.route("/")
@@ -24,6 +29,7 @@ def index():
 
 
 @app.route("/api/generate/text", methods=["POST"])
+@limiter.limit("500 per hour")
 def generate_from_text():
     data = request.get_json(force=True)
     try:
@@ -46,6 +52,7 @@ def generate_from_text():
 
 
 @app.route("/api/generate/voice", methods=["POST"])
+@limiter.limit("500 per hour")
 def generate_from_voice():
     try:
         audio_file = request.files.get("audio")
@@ -56,12 +63,22 @@ def generate_from_voice():
         context = Sanitizer.text(request.form.get("context", ""), Config.MAX_CONTEXT_CHARS)
 
         raw_bytes = audio_file.read()
+        ratio = audio_processor.speech_ratio(raw_bytes)
+        if ratio < Config.MIN_SPEECH_RATIO:
+            return jsonify({
+                "error": "We couldn't detect enough speech in that recording. "
+                         "Make sure you're speaking clearly and try again."
+            }), 422
         cleaned_bytes = audio_processor.clean(raw_bytes)
 
         transcript = llm_service.transcribe(
             cleaned_bytes, prompt_hint=f"Professional IT update, mentions tickets like {prefix}"
         )
         transcript = Sanitizer.text(transcript, Config.MAX_INPUT_CHARS)
+        if len(transcript.split()) < Config.MIN_TRANSCRIPT_WORDS:
+            return jsonify({
+                "error": "That update was too short to summarize. Try adding a bit more detail."
+            }), 422
 
         result = pipeline.run(transcript, context, prefix, "")
         result["transcript"] = transcript
