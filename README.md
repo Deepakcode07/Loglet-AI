@@ -107,7 +107,7 @@ Yes, the core voice-to-report and paste-to-report flow is free to use.
 
 ## 🧩 Tech Stack
 
-Built with **Streamlit**, **LangGraph**, and a multi-provider AI fallback chain (Gemini → Groq → OpenRouter) for high reliability, plus **Whisper** for multilingual speech-to-text.
+Built with **Flask**, **LangGraph**, and a multi-provider AI fallback chain (Gemini → Groq → OpenRouter) for high reliability, plus **Whisper** for multilingual speech-to-text.
 
 ## 📈 Keywords
 
