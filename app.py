@@ -28,6 +28,14 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/health")
+@app.route("/healthz")
+@app.route("/_stcore/health")
+@limiter.exempt
+def health_check():
+    return jsonify({"status": "healthy"}), 200
+
+
 @app.route("/api/generate/text", methods=["POST"])
 @limiter.limit("500 per hour")
 def generate_from_text():
