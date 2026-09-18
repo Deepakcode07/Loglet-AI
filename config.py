@@ -7,6 +7,10 @@ class Config:
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
     OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
+    SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+    SUPABASE_KEY = os.getenv("SUPABASE_KEY", os.getenv("SUPABASE_ANON_KEY", ""))
+    GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
+
     GEMINI_CHAIN = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-flash-latest"]
     GROQ_TEXT_CHAIN = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"]
     WHISPER_CHAIN = ["whisper-large-v3", "whisper-large-v3-turbo"]

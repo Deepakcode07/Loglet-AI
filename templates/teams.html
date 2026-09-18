@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loglet Teams — Setup & Team Invites</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="aurora">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="/" class="logo">🎙️ Loglet <span>AI</span></a>
+            <span class="ver">Loglet Teams</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">🎙️ Daily Update</a>
+            <a href="/pulse" class="nav-link">📊 Loglet Pulse</a>
+            <a href="/teams" class="nav-link active">👥 Teams</a>
+            <a href="/vault" class="nav-link">🏆 CareerVault</a>
+            <a href="/guide" class="nav-link">📖 Guide</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="badge"><span class="dot"></span>COLLECTIVE STATUS APPROACH</span>
+        <h1>Set Up Your Engineering Team<br><span class="grad">In 60 Seconds</span></h1>
+        <p>Managers specify project size and share an invite link. Team members join and submit daily voice notes on time.</p>
+    </header>
+
+    <main class="container-single">
+        <!-- JOIN TEAM CARD (Visible if invite code is present in URL or entered) -->
+        <div id="joinCard" class="panel hidden" style="margin-bottom: 24px; border-color: var(--accent2);">
+            <div class="panel-head">
+                <span class="step-tag" style="background: rgba(94, 234, 212, 0.15); color: var(--accent2); border-color: rgba(94, 234, 212, 0.4);">INVITE LINK DETECTED</span>
+                <h2 id="joinProjectTitle">Join Engineering Team</h2>
+            </div>
+            <p style="color: var(--muted); font-size: 14px; margin-top: -10px; margin-bottom: 16px;">
+                Enter your details to join your project roster and activate GitSync Radar auto-attribution.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <input id="joinName" placeholder="Your Full Name (e.g. Rahul Sharma)" />
+                <input id="joinEmail" type="email" placeholder="Your Email (e.g. rahul@company.com)" />
+            </div>
+            <input id="joinGithub" placeholder="GitHub Username (Optional, e.g. rahul-dev for GitSync)" />
+            <input id="joinCode" type="hidden" />
+            <button id="joinBtn" class="cta" style="background: linear-gradient(92deg, var(--accent2), #059669); color: #08070C; font-weight: 800;">
+                ✓ Join Team & Start Reporting →
+            </button>
+            <div id="joinStatus" class="status-msg hidden"></div>
+        </div>
+
+        <!-- MANAGER SETUP CARD -->
+        <div class="panel" style="margin-bottom: 24px;">
+            <div class="panel-head">
+                <span class="step-tag">MANAGER</span>
+                <h2>Create New Project & Invite Team</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+                <div>
+                    <label style="font: 700 11px Inter; color: var(--muted); display: block; margin-bottom: 6px;">PROJECT / TEAM NAME</label>
+                    <input id="projName" placeholder="e.g. Core API Backend" value="Core API Backend" />
+                </div>
+                <div>
+                    <label style="font: 700 11px Inter; color: var(--muted); display: block; margin-bottom: 6px;">TARGET TEAM SIZE</label>
+                    <input id="teamSize" type="number" min="1" max="100" value="8" />
+                </div>
+            </div>
+            <label style="font: 700 11px Inter; color: var(--muted); display: block; margin-bottom: 6px;">MANAGER EMAIL</label>
+            <input id="mgrEmail" type="email" placeholder="e.g. lead@company.com" value="lead@company.com" />
+            
+            <button id="createProjBtn" class="cta">🚀 Generate Team Invite Link →</button>
+            <div id="createStatus" class="status-msg hidden"></div>
+
+            <div id="inviteResultCard" class="gitsync-card hidden" style="margin-top: 20px;">
+                <div class="gitsync-title">
+                    🔗 Unique Team Invite Link Created:
+                </div>
+                <div class="copy-box" style="margin-top: 10px;">
+                    <span id="inviteUrlText" style="flex: 1; word-break: break-all;">https://loglet.ai/join?code=LOGLET-8F3A9B</span>
+                    <button id="copyInviteBtn" class="report-actions" style="margin: 0; padding: 6px 12px; cursor: pointer;">📋 Copy Link</button>
+                </div>
+                <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">
+                    Share this link on Slack or Microsoft Teams. Teammates can join in 1-click.
+                </p>
+            </div>
+        </div>
+
+        <!-- TEAM ROSTER & PROGRESS CARD -->
+        <div class="panel">
+            <div class="panel-head">
+                <span class="step-tag">ROSTER</span>
+                <h2>Active Team Members</h2>
+            </div>
+            <div id="rosterList" style="line-height: 1.8; font-size: 14px; color: var(--ink);">
+                <div style="padding: 12px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
+                    <div><strong>Deepak Kumar</strong> (lead@company.com) <span class="ver">Manager</span></div>
+                    <span class="gitsync-badge" style="background: rgba(74, 222, 128, 0.2); color: #4ADE80;">Submitted Today</span>
+                </div>
+                <div style="padding: 12px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
+                    <div><strong>Priya Sharma</strong> (priya@company.com) <span class="gitsync-badge">GitHub: @priya-dev</span></div>
+                    <span class="gitsync-badge" style="background: rgba(74, 222, 128, 0.2); color: #4ADE80;">Submitted Today</span>
+                </div>
+                <div style="padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <div><strong>Amit Patel</strong> (amit@company.com) <span class="gitsync-badge">GitHub: @amit-dev</span></div>
+                    <span class="gitsync-badge" style="background: rgba(250, 204, 21, 0.2); color: #FACC15;">Pending</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>Loglet AI — Intelligence that acts.</footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            if (code) {
+                document.getElementById('joinCard').classList.remove('hidden');
+                document.getElementById('joinCode').value = code;
+                fetch(`/api/teams/invite/${code}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.project) {
+                            document.getElementById('joinProjectTitle').innerText = `Join ${data.project.name}`;
+                        }
+                    }).catch(() => {});
+            }
+
+            document.getElementById('createProjBtn').addEventListener('click', async () => {
+                const name = document.getElementById('projName').value;
+                const target_team_size = document.getElementById('teamSize').value;
+                const manager_email = document.getElementById('mgrEmail').value;
+
+                const res = await fetch('/api/teams/create', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name, target_team_size, manager_email})
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    document.getElementById('inviteUrlText').innerText = data.invite_url;
+                    document.getElementById('inviteResultCard').classList.remove('hidden');
+                    localStorage.setItem('loglet_project_id', data.project.id);
+                    localStorage.setItem('loglet_project_name', data.project.name);
+                    localStorage.setItem('loglet_team_size', target_team_size);
+                }
+            });
+
+            document.getElementById('copyInviteBtn').addEventListener('click', () => {
+                const link = document.getElementById('inviteUrlText').innerText;
+                navigator.clipboard.writeText(link);
+                alert('Invite link copied to clipboard!');
+            });
+
+            document.getElementById('joinBtn').addEventListener('click', async () => {
+                const name = document.getElementById('joinName').value;
+                const email = document.getElementById('joinEmail').value;
+                const invite_code = document.getElementById('joinCode').value;
+                const github_username = document.getElementById('joinGithub').value;
+
+                const res = await fetch('/api/teams/join', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name, email, invite_code, github_username})
+                });
+                const data = await res.json();
+                const statusDiv = document.getElementById('joinStatus');
+                statusDiv.classList.remove('hidden');
+                if (res.ok) {
+                    statusDiv.className = "status-msg";
+                    statusDiv.style.background = "rgba(74, 222, 128, 0.15)";
+                    statusDiv.innerText = `Successfully joined ${data.project.name}!`;
+                    localStorage.setItem('loglet_user_id', data.user.id);
+                    localStorage.setItem('loglet_user_name', data.user.name);
+                    localStorage.setItem('loglet_project_id', data.project.id);
+                    localStorage.setItem('loglet_github', github_username);
+                } else {
+                    statusDiv.className = "status-msg error";
+                    statusDiv.innerText = data.error || "Failed to join team.";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

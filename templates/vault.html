@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerVault — Promotion Portfolio & Appraisal Vault</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="aurora">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="/" class="logo">🎙️ Loglet <span>AI</span></a>
+            <span class="ver">CareerVault™</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">🎙️ Daily Update</a>
+            <a href="/pulse" class="nav-link">📊 Loglet Pulse</a>
+            <a href="/teams" class="nav-link">👥 Teams</a>
+            <a href="/vault" class="nav-link active">🏆 CareerVault</a>
+            <a href="/guide" class="nav-link">📖 Guide</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="badge"><span class="dot"></span>VIRAL CAREER GROWTH HOOK</span>
+        <h1>Your Personal Appraisal Vault<br><span class="grad">& Promotion Portfolio</span></h1>
+        <p>Every daily update logs your impact score. At review season, generate a 1-click evidence-backed Promotion Portfolio.</p>
+    </header>
+
+    <main class="container-single">
+        <!-- USER METRICS SUMMARY -->
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div id="vaultTotalUpdates" class="stat-num">14</div>
+                <div class="stat-label">Total Status Reports Recorded</div>
+            </div>
+            <div class="stat-card">
+                <div id="vaultAvgScore" class="stat-num" style="color: var(--accent2);">88.5</div>
+                <div class="stat-label">Average Impact Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" style="color: var(--accent);">L4 ➔ L5</div>
+                <div class="stat-label">Target Promotion Ladder</div>
+            </div>
+        </div>
+
+        <!-- PORTFOLIO GENERATOR WIZARD -->
+        <div class="panel" style="margin-bottom: 24px;">
+            <div class="panel-head">
+                <span class="step-tag">BUILD</span>
+                <h2>Generate Promotion Portfolio Document</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div>
+                    <label style="font: 700 11px Inter; color: var(--muted); display: block; margin-bottom: 6px;">TIMEFRAME / QUARTER</label>
+                    <select id="quarterSelect">
+                        <option value="Q3 2026">Q3 2026 (July - Sept)</option>
+                        <option value="Q4 2026">Q4 2026 (Oct - Dec)</option>
+                        <option value="Annual 2026">Annual Review 2026</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font: 700 11px Inter; color: var(--muted); display: block; margin-bottom: 6px;">TARGET ENGINEERING LADDER</label>
+                    <select id="ladderSelect">
+                        <option value="L3_TO_L4">L3 ➔ L4 (Software Engineer -> Mid-Level)</option>
+                        <option value="L4_TO_L5" selected>L4 ➔ L5 (Mid-Level -> Senior Engineer)</option>
+                        <option value="L5_TO_L6">L5 ➔ L6 (Senior -> Staff / Principal Engineer)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="genVaultBtn" class="cta" style="margin-top: 10px;">🏆 Compile 1-Click Promotion Portfolio →</button>
+        </div>
+
+        <!-- RENDERED PROMOTION PORTFOLIO -->
+        <div class="panel">
+            <div class="panel-head" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="step-tag" style="background: rgba(94, 234, 212, 0.15); color: var(--accent2); border-color: rgba(94, 234, 212, 0.4);">PORTFOLIO</span>
+                    <h2>Generated Appraisal Document</h2>
+                </div>
+                <div class="report-actions" style="margin: 0;">
+                    <button id="copyVaultMd" title="Copy Markdown">📋 Copy Portfolio Markdown</button>
+                </div>
+            </div>
+
+            <div id="vaultLoader" class="skeleton hidden">
+                <div class="sk-status">CareerVault compiling historical impact score & competency matrix...</div>
+                <div class="sk-line w85"></div>
+                <div class="sk-line w70"></div>
+            </div>
+
+            <div id="vaultContent" class="report-view">
+                <h1>🏆 Promotion Portfolio & Appraisal Vault — Developer</h1>
+                <p><strong>Target Level:</strong> L4 TO L5 | <strong>Timeframe:</strong> Q3 2026 | <strong>Avg Impact Score:</strong> 88.5 / 100</p>
+                <hr style="border-color: var(--line);">
+
+                <h2>📈 Executive Summary & Impact Overview</h2>
+                <p>Over Q3 2026, demonstrated consistent senior-level execution, technical ownership, and team unblocking. Led 2 major architectural initiatives including Supabase DB resilience and Loglet Pulse aggregation.</p>
+
+                <h2>🏛️ Key Architectural & Technical Contributions</h2>
+                <ul>
+                    <li><strong>Task - 1042</strong> Designed Supabase integration with zero-downtime mock fallback.</li>
+                    <li><strong>PR #104</strong> Merged OAuth2 session handling refactor reducing API error rates by 35%.</li>
+                </ul>
+
+                <h2>🤝 Technical Leadership & Peer Unblocking</h2>
+                <ul>
+                    <li>Unblocked 2 engineers on AWS IAM permission issues and defined standard ticketing prefix guidelines.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>Loglet AI — Intelligence that acts.</footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user_id = localStorage.getItem('loglet_user_id') || 'anon-user';
+            const user_name = localStorage.getItem('loglet_user_name') || 'Developer';
+
+            document.getElementById('genVaultBtn').addEventListener('click', async () => {
+                const quarter = document.getElementById('quarterSelect').value;
+                const target_ladder = document.getElementById('ladderSelect').value;
+
+                document.getElementById('vaultLoader').classList.remove('hidden');
+                document.getElementById('vaultContent').style.opacity = '0.3';
+
+                const res = await fetch('/api/vault/generate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({user_id, user_name, quarter, target_ladder})
+                });
+                const data = await res.json();
+
+                document.getElementById('vaultLoader').classList.add('hidden');
+                document.getElementById('vaultContent').style.opacity = '1';
+
+                if (res.ok) {
+                    document.getElementById('vaultAvgScore').innerText = `${data.avg_impact_score} / 100`;
+                    document.getElementById('vaultContent').innerHTML = data.portfolio_html;
+                    window.currentVaultMd = data.portfolio_md;
+                }
+            });
+
+            document.getElementById('copyVaultMd').addEventListener('click', () => {
+                const text = window.currentVaultMd || document.getElementById('vaultContent').innerText;
+                navigator.clipboard.writeText(text);
+                alert('Promotion Portfolio copied to clipboard!');
+            });
+        });
+    </script>
+</body>
+</html>

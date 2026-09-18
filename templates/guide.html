@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loglet Playbook — Guide & Best Practices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="aurora">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="/" class="logo">🎙️ Loglet <span>AI</span></a>
+            <span class="ver">Playbook Guide</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">🎙️ Daily Update</a>
+            <a href="/pulse" class="nav-link">📊 Loglet Pulse</a>
+            <a href="/teams" class="nav-link">👥 Teams</a>
+            <a href="/vault" class="nav-link">🏆 CareerVault</a>
+            <a href="/guide" class="nav-link active">📖 Guide</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="badge"><span class="dot"></span>LOGLET PLAYBOOK</span>
+        <h1>Mastering Async Standups<br><span class="grad">& Career Growth</span></h1>
+        <p>Everything developers, tech leads, and managers need to know to get 10x value out of Loglet AI.</p>
+    </header>
+
+    <main class="container-single">
+        <div class="panel" style="margin-bottom: 24px;">
+            <div class="panel-head">
+                <span class="step-tag">DEV</span>
+                <h2>For Developers: 15-Second High-Impact Updates</h2>
+            </div>
+            <div style="line-height: 1.7; color: var(--ink); font-size: 14.5px;">
+                <p><strong>1. Speak Naturally in English, Hindi, or Hinglish:</strong> Loglet is built to code-switch mid-sentence seamlessly. Feel free to say <em>"Worked on Task 4022 kal DB deadlock fix ho gaya..."</em></p>
+                <p><strong>2. Say Ticket Numbers Out Loud:</strong> Whenever you mention numbers (e.g. <code>Task 12500</code> or <code>PR #42</code>), Loglet guarantees they will be formatted cleanly into <code>**Task - 12500**</code>.</p>
+                <p><strong>3. Enable GitSync Radar:</strong> Simply type your GitHub username on the home page. Loglet queries your public/repo commits from the last 12 hours so your code literally writes half your update.</p>
+                <p><strong>4. Build your CareerVault:</strong> Every daily update generates a daily <strong>Impact Score</strong> and catalogs your architectural wins. End of quarter, click 1-button to generate your Promotion Portfolio!</p>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-bottom: 24px;">
+            <div class="panel-head">
+                <span class="step-tag">LEAD</span>
+                <h2>For Engineering Managers & Tech Leads</h2>
+            </div>
+            <div style="line-height: 1.7; color: var(--ink); font-size: 14.5px;">
+                <p><strong>1. 0-Minute Standups ($120k+ Savings):</strong> Replace lengthy 30-minute syncs. Team members submit their 30-second audio updates by 5:30 PM.</p>
+                <p><strong>2. Executive Sprint Health Digest (Loglet Pulse):</strong> At 6:00 PM, the Aggregator Agent synthesizes all updates into a single executive briefing featuring 🔴 Critical Blockers, 🟡 Risk Watch, and 🟢 Shipped Items.</p>
+                <p><strong>3. Easy Team Onboarding:</strong> Go to the <strong>Teams</strong> page, enter your project name & target team size, and send the generated invite link to your team via Slack or Teams.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-head">
+                <span class="step-tag">FAQ</span>
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div style="line-height: 1.7; color: var(--muted); font-size: 14px;">
+                <p><strong style="color: #fff;">Q: Where is my team data stored?</strong><br>Loglet stores all team updates, digests, and brag docs on Supabase (PostgreSQL) with enterprise-grade encryption.</p>
+                <p><strong style="color: #fff;">Q: Will my task or ticket numbers get dropped?</strong><br>No. Explicit task detection guarantees every ticket number is preserved and highlighted in standard markdown formatting.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>Loglet AI — Intelligence that acts.</footer>
+</body>
+</html>

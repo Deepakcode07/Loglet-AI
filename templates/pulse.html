@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loglet Pulse — Executive Sprint Health Digest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="aurora">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-brand">
+            <a href="/" class="logo">🎙️ Loglet <span>AI</span></a>
+            <span class="ver">Loglet Pulse™</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">🎙️ Daily Update</a>
+            <a href="/pulse" class="nav-link active">📊 Loglet Pulse</a>
+            <a href="/teams" class="nav-link">👥 Teams</a>
+            <a href="/vault" class="nav-link">🏆 CareerVault</a>
+            <a href="/guide" class="nav-link">📖 Guide</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="badge"><span class="dot"></span>EXECUTIVE AGGREGATOR AGENT</span>
+        <h1>Executive Sprint Health Digest<br><span class="grad">0-Minute Standups. 100% Visibility.</span></h1>
+        <p>Synthesizes 15 audio snippets into a 60-second briefing for directors and engineering managers at 6:00 PM.</p>
+    </header>
+
+    <main class="container-single">
+        <!-- STAT METRICS CARDS -->
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div id="subCountNum" class="stat-num">8 / 10</div>
+                <div class="stat-label">Daily Updates Logged Today</div>
+            </div>
+            <div class="stat-card">
+                <div id="compRateNum" class="stat-num" style="color: var(--accent);">80.0%</div>
+                <div class="stat-label">Team Participation Rate</div>
+            </div>
+            <div class="stat-card">
+                <div id="blockerCountNum" class="stat-num" style="color: var(--red);">2</div>
+                <div class="stat-label">Critical Blockers Flagged</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+            <button id="runPulseBtn" class="cta">⚡ Run Loglet Pulse Aggregator Agent Now →</button>
+        </div>
+
+        <!-- DIGEST OUTPUT PANEL -->
+        <div class="panel">
+            <div class="panel-head" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="step-tag" style="background: rgba(255, 90, 90, 0.15); color: var(--red); border-color: rgba(255, 90, 90, 0.4);">LIVE DIGEST</span>
+                    <h2 id="pulseTitle">Executive Sprint Health Digest</h2>
+                </div>
+                <div class="report-actions" style="margin: 0;">
+                    <button id="copyPulseMd" title="Copy Raw Markdown">📋 Copy Digest Markdown</button>
+                </div>
+            </div>
+
+            <div id="pulseLoader" class="skeleton hidden">
+                <div class="sk-status">Aggregator Agent synthesizing team updates...</div>
+                <div class="sk-line w85"></div>
+                <div class="sk-line w70"></div>
+                <div class="sk-line w60"></div>
+            </div>
+
+            <div id="pulseContent" class="report-view">
+                <h2>🔴 Critical Blockers & Escalations</h2>
+                <ul>
+                    <li><strong>2 engineers blocked</strong> on AWS IAM permissions for S3 bucket access. (Rahul & Priya)</li>
+                    <li>Staging database connection pool saturated during peak load test.</li>
+                </ul>
+
+                <h2>🟡 Risk Assessment & Sprint Scope Watch</h2>
+                <ul>
+                    <li><strong>Task - 892</strong> (Azure Search Indexing) moving slower than expected — potential 1-day slip on Sprint Goal.</li>
+                </ul>
+
+                <h2>🟢 Shipped & Completed Today</h2>
+                <ul>
+                    <li><strong>6 PRs merged</strong> including OAuth2 session refresh handler and Supabase migration.</li>
+                    <li>Staging deployment updated and validated cleanly.</li>
+                </ul>
+
+                <h2>📊 Executive Summary</h2>
+                <p>Overall velocity remains strong (80% completion). Resolving the AWS IAM blocker by 10 AM tomorrow will keep Sprint #44 on target.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>Loglet AI — Intelligence that acts.</footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const project_id = localStorage.getItem('loglet_project_id') || 'default-project';
+            const project_name = localStorage.getItem('loglet_project_name') || 'Core API Backend';
+            const target_team_size = localStorage.getItem('loglet_team_size') || 10;
+
+            document.getElementById('runPulseBtn').addEventListener('click', async () => {
+                document.getElementById('pulseLoader').classList.remove('hidden');
+                document.getElementById('pulseContent').style.opacity = '0.3';
+
+                const res = await fetch('/api/pulse/generate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({project_id, project_name, target_team_size})
+                });
+                const data = await res.json();
+                
+                document.getElementById('pulseLoader').classList.add('hidden');
+                document.getElementById('pulseContent').style.opacity = '1';
+
+                if (res.ok) {
+                    document.getElementById('subCountNum').innerText = `${data.total_submissions} / ${target_team_size}`;
+                    document.getElementById('compRateNum').innerText = `${data.completion_rate}%`;
+                    document.getElementById('pulseContent').innerHTML = data.digest_html;
+                    window.currentPulseMd = data.digest_md;
+                }
+            });
+
+            document.getElementById('copyPulseMd').addEventListener('click', () => {
+                const text = window.currentPulseMd || document.getElementById('pulseContent').innerText;
+                navigator.clipboard.writeText(text);
+                alert('Executive Pulse Digest copied to clipboard!');
+            });
+        });
+    </script>
+</body>
+</html>

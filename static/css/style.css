@@ -6,6 +6,9 @@
     --muted: #9BA1AE;
     --accent: #8B7CFF;
     --accent2: #5EEAD4;
+    --red: #FF5A5A;
+    --yellow: #FACC15;
+    --green: #4ADE80;
     --card: rgba(255, 255, 255, .04);
     --line: rgba(255, 255, 255, .09);
     --ease: cubic-bezier(.22, 1, .36, 1);
@@ -68,34 +71,67 @@ body {
     from {
         transform: translate(0, 0) scale(1);
     }
-
     to {
         transform: translate(80px, 50px) scale(1.1);
     }
 }
 
+/* === TOP NAVIGATION BAR === */
 .nav {
     position: relative;
-    z-index: 2;
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 5vw;
+    padding: 18px 5vw;
+    background: rgba(8, 7, 12, 0.75);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .logo {
     font-weight: 800;
-    font-size: 18px;
+    font-size: 20px;
+    color: #fff;
+    text-decoration: none;
 }
 
 .logo span {
     color: var(--accent2);
 }
 
+.nav-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--muted);
+    text-decoration: none;
+    font: 600 13px Inter;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: 0.2s var(--ease);
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #fff;
+    background: rgba(139, 124, 255, 0.15);
+    border: 1px solid rgba(139, 124, 255, 0.3);
+}
+
 .ver {
     font: 600 11px 'JetBrains Mono';
-    color: var(--muted);
-    border: 1px solid var(--line);
+    color: var(--accent2);
+    background: rgba(94, 234, 212, 0.1);
+    border: 1px solid rgba(94, 234, 212, 0.3);
     padding: 4px 10px;
     border-radius: 8px;
 }
@@ -104,7 +140,7 @@ body {
     position: relative;
     z-index: 2;
     text-align: center;
-    padding: 20px 5vw 40px;
+    padding: 24px 5vw 20px;
 }
 
 .badge {
@@ -135,9 +171,9 @@ body {
 }
 
 .hero h1 {
-    font-size: clamp(32px, 5vw, 52px);
+    font-size: clamp(30px, 4.5vw, 48px);
     font-weight: 800;
-    margin: 16px 0;
+    margin: 14px 0;
     letter-spacing: -.03em;
 }
 
@@ -150,12 +186,13 @@ body {
 
 .hero p {
     color: var(--muted);
-    max-width: 560px;
+    max-width: 600px;
     margin: 0 auto;
-    font-size: 16px;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
-/* === WIDE TWO-PANEL LAYOUT — fixes space utilization === */
+/* === WIDE LAYOUT WORKSPACE === */
 .workspace {
     position: relative;
     z-index: 2;
@@ -168,9 +205,20 @@ body {
     align-items: start;
 }
 
+.container-single {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 5vw;
+}
+
 @media(max-width:900px) {
     .workspace {
         grid-template-columns: 1fr;
+    }
+    .nav-links {
+        display: none;
     }
 }
 
@@ -181,13 +229,12 @@ body {
     padding: 28px;
     backdrop-filter: blur(16px);
     box-shadow: 0 30px 80px rgba(0, 0, 0, .45);
-    transform-style: preserve-3d;
     transition: transform .4s var(--ease), box-shadow .4s;
 }
 
 .panel:hover {
-    transform: translateY(-4px) rotateX(1deg);
-    box-shadow: 0 40px 100px rgba(139, 124, 255, .15);
+    transform: translateY(-2px);
+    box-shadow: 0 30px 90px rgba(139, 124, 255, .15);
 }
 
 .panel-head {
@@ -209,6 +256,51 @@ body {
 .panel-head h2 {
     font-size: 16px;
     margin: 0;
+}
+
+/* === GITSYNC RADAR BANNER === */
+.gitsync-card {
+    background: rgba(94, 234, 212, 0.05);
+    border: 1px solid rgba(94, 234, 212, 0.25);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.gitsync-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.gitsync-title {
+    font: 700 13px Inter;
+    color: var(--accent2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gitsync-badge {
+    font: 700 10px 'JetBrains Mono';
+    background: rgba(94, 234, 212, 0.2);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.gitsync-items {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.gitsync-item-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
 }
 
 .tabs {
@@ -242,12 +334,11 @@ body {
     display: none !important;
 }
 
-/* 3D interactive orb — the "visual shock" element */
 .orb-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0;
+    padding: 30px 0;
 }
 
 .orb {
@@ -282,21 +373,12 @@ body {
 }
 
 @keyframes pulseRec {
-
-    0%,
-    100% {
-        box-shadow: 0 20px 50px rgba(255, 90, 90, .4);
-    }
-
-    50% {
-        box-shadow: 0 20px 70px rgba(255, 90, 90, .7);
-    }
+    0%, 100% { box-shadow: 0 20px 50px rgba(255, 90, 90, .4); }
+    50% { box-shadow: 0 20px 70px rgba(255, 90, 90, .7); }
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 #orbIcon {
@@ -321,15 +403,8 @@ body {
 }
 
 @keyframes wave {
-
-    0%,
-    100% {
-        height: 4px;
-    }
-
-    50% {
-        height: 26px;
-    }
+    0%, 100% { height: 4px; }
+    50% { height: 26px; }
 }
 
 .hint {
@@ -338,8 +413,7 @@ body {
     margin-top: 12px;
 }
 
-textarea,
-input {
+textarea, input, select {
     width: 100%;
     background: rgba(255, 255, 255, .04);
     border: 1px solid var(--line);
@@ -347,7 +421,7 @@ input {
     color: var(--ink);
     padding: 14px;
     font: 400 14.5px Inter;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     transition: .2s;
 }
 
@@ -356,8 +430,7 @@ textarea {
     resize: vertical;
 }
 
-textarea:focus,
-input:focus {
+textarea:focus, input:focus, select:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(139, 124, 255, .18);
@@ -381,10 +454,6 @@ input:focus {
     box-shadow: 0 14px 40px rgba(139, 124, 255, .5);
 }
 
-.cta:active {
-    transform: translateY(0);
-}
-
 .settings {
     margin-top: 16px;
     border-top: 1px solid var(--line);
@@ -396,7 +465,7 @@ input:focus {
 
 .settings-row {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
     margin-top: 12px;
 }
@@ -425,7 +494,7 @@ input:focus {
 .empty-state {
     border: 1.5px dashed var(--line);
     border-radius: 20px;
-    padding: 60px 20px;
+    padding: 50px 20px;
     text-align: center;
     color: var(--muted);
 }
@@ -434,12 +503,6 @@ input:focus {
     font-size: 34px;
     color: var(--accent);
     margin-bottom: 10px;
-}
-
-.empty-state p {
-    color: var(--ink);
-    font-weight: 700;
-    margin: 6px 0 4px;
 }
 
 .skeleton {
@@ -462,26 +525,13 @@ input:focus {
 }
 
 @keyframes shimmer {
-    from {
-        background-position: 200% 0;
-    }
-
-    to {
-        background-position: -200% 0;
-    }
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
 }
 
-.w60 {
-    width: 60%;
-}
-
-.w70 {
-    width: 70%;
-}
-
-.w85 {
-    width: 85%;
-}
+.w60 { width: 60%; }
+.w70 { width: 70%; }
+.w85 { width: 85%; }
 
 .report-actions {
     display: flex;
@@ -512,12 +562,6 @@ input:focus {
     font-size: 14.5px;
 }
 
-.report-view[contenteditable="true"] {
-    outline: 2px dashed var(--accent);
-    border-radius: 10px;
-    padding: 10px;
-}
-
 .report-view strong {
     font-family: 'JetBrains Mono';
     color: #C9C2FF;
@@ -525,6 +569,46 @@ input:focus {
     border: 1px solid rgba(139, 124, 255, .35);
     padding: 2px 8px;
     border-radius: 6px;
+}
+
+/* === LOGLET PULSE & STAT CARDS === */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent2);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.copy-box {
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 14px;
+    align-items: center;
+    font: 600 13px 'JetBrains Mono';
+    color: var(--accent2);
 }
 
 footer {

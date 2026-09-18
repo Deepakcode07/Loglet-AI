@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loglet AI</title>
+    <title>Loglet AI — Voice to EOD Status Report & Dev Intelligence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -16,20 +16,51 @@
     </div>
 
     <nav class="nav">
-        <div class="logo">🎙️ Loglet <span>AI</span></div>
-        <span class="ver">Loglet is your 24x7 AI agent</span>
+        <div class="nav-brand">
+            <a href="/" class="logo">🎙️ Loglet <span>AI</span></a>
+            <span class="ver">24x7 Engineering Agent</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link active">🎙️ Daily Update</a>
+            <a href="/pulse" class="nav-link">📊 Loglet Pulse</a>
+            <a href="/teams" class="nav-link">👥 Teams</a>
+            <a href="/vault" class="nav-link">🏆 CareerVault</a>
+            <a href="/guide" class="nav-link">📖 Guide</a>
+        </div>
     </nav>
 
     <header class="hero">
-        <span class="badge"><span class="dot"></span>AI EOD REPORTER</span>
+        <span class="badge"><span class="dot"></span>AI EOD & TEAM INTELLIGENCE</span>
         <h1>Speak your day.<br><span class="grad">Ship your status.</span></h1>
-        <p>Hindi, English, or Hinglish — Loglet turns a rough voice note into a polished EOD report.</p>
+        <p>Hindi, English, or Hinglish — Loglet turns 15 seconds of audio or Git activity into a polished EOD report.</p>
     </header>
 
     <main class="workspace">
         <section class="panel panel-input" id="panelInput">
             <div class="panel-head"><span class="step-tag">01</span>
                 <h2>Give your update</h2>
+            </div>
+
+            <!-- GITSYNC RADAR WIDGET -->
+            <div class="gitsync-card" id="gitsyncCard">
+                <div class="gitsync-head">
+                    <span class="gitsync-title">🛰️ GitSync Radar™ (Zero-Effort Verification)</span>
+                    <span class="gitsync-badge" id="gitsyncStatusBadge">Ready</span>
+                </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <input id="githubUserInput" placeholder="GitHub username (e.g. torvalds)" style="margin-bottom:0;" />
+                    <button id="fetchGitBtn" class="report-actions" style="white-space: nowrap; margin:0; padding: 0 14px;">
+                        Fetch Git Activity
+                    </button>
+                </div>
+                <div id="gitsyncResult" class="gitsync-items hidden">
+                    <div id="gitsyncSummaryText" style="font-weight: 700; color: #fff;"></div>
+                    <div id="gitsyncItemsList" style="margin-top: 4px;"></div>
+                    <label style="display: flex; align-items: center; gap: 8px; margin-top: 8px; color: var(--accent2); cursor: pointer; font-size: 13px;">
+                        <input type="checkbox" id="includeGitCheck" checked style="width: auto; margin:0;" />
+                        Include this Git context automatically in my report
+                    </label>
+                </div>
             </div>
 
             <div class="tabs">
@@ -65,8 +96,14 @@
         </section>
 
         <section class="panel panel-output" id="panelOutput">
-            <div class="panel-head"><span class="step-tag">02</span>
-                <h2>Your EOD Report</h2>
+            <div class="panel-head" style="justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="step-tag">02</span>
+                    <h2>Your EOD Report</h2>
+                </div>
+                <div id="impactScoreBadge" class="gitsync-badge hidden" style="background: rgba(139, 124, 255, 0.2); color: var(--accent); font-size: 12px; padding: 4px 10px;">
+                    Daily Impact Score: <span id="impactScoreVal">0</span>/100
+                </div>
             </div>
 
             <div id="skeletonLoader" class="skeleton hidden">
