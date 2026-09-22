@@ -188,12 +188,21 @@ def edit_report():
 
 # ==================== GITSYNC RADARS API ====================
 
-@app.route("/api/gitsync", methods=["GET"])
+@app.route("/api/gitsync", methods=["GET", "POST"])
 def gitsync_radar():
-    username = request.args.get("username", "")
-    if not username:
-        return jsonify({"error": "GitHub username is required"}), 400
-    res = git_service.fetch_today_activity(username)
+    token = ""
+    if request.method == "POST":
+        data = request.get_json(force=True, silent=True) or {}
+        username = data.get("username", "")
+        token = data.get("token", "")
+    else:
+        username = request.args.get("username", "")
+        token = request.args.get("token", "")
+
+    if not username and not token:
+        return jsonify({"error": "GitHub username or Personal Access Token is required"}), 400
+
+    res = git_service.fetch_today_activity(username, user_token=token)
     return jsonify(res)
 
 
